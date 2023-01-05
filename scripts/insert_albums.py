@@ -31,7 +31,16 @@ for row in rows:
     db.insert_album_weekly(week=week, album_popularity=row[COL_ALBUM_POP], album_id=row[COL_ALBUM_ID])
 
     if row[COL_ALBUM_ID] not in album_ids:
-        album_image = url_to_blob(row[COL_ALBUM_IMG])
+
+        # Handling data with empty album name (check images empty_data_all.png)
+        if row[COL_ALBUM_NAME] == "":
+            row[COL_ALBUM_NAME] = None
+            row[COL_ALBUM_IMG] = None
+            row[COL_ALBUM_LABEL] = None
+
+        if row[COL_ALBUM_IMG] != None:
+            album_image = url_to_blob(row[COL_ALBUM_IMG])
+
         db.insert_album(album_id=row[COL_ALBUM_ID], album_name=row[COL_ALBUM_NAME], album_image=album_image, album_type=row[COL_ALBUM_TYPE], album_label=row[COL_ALBUM_LABEL], album_track_number=row[COL_ALBUM_TRACK_NUM])
         
         album_ids.append(row[COL_ALBUM_ID])

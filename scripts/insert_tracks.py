@@ -31,6 +31,11 @@ for row in rows:
     db.insert_track_weekly(week=week, rank=row[COL_RANK], streams=row[COL_STREAMS], track_id=row[COL_TRACK_ID], track_popularity=row[COL_TRACK_POP])
 
     if row[COL_TRACK_ID] not in track_ids:
+        
+        # Handling data with empty track name (check images empty_data_all.png)
+        if row[COL_TRACK_NAME] == "":
+            row[COL_TRACK_NAME] = None
+
         collab = True if row[COL_COLLAB] == "TRUE" else False
         explicit = True if row[COL_EXPLICIT] == "TRUE" else False
         db.insert_track(track_id=row[COL_TRACK_ID], track_name=row[COL_TRACK_NAME], track_number=row[COL_TRACK_NUM], collab=collab, explicit=explicit)

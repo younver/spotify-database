@@ -29,6 +29,10 @@ for row in rows:
     for genre in artist_genres:
         genre = genre.strip()
         
+        # Handle data with empty genre name
+        if genre == "":
+            continue
+
         if genre not in genres:
             genres.append(genre)
 

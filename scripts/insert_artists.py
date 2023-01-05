@@ -46,13 +46,14 @@ for row in rows:
             create_date = week_to_str(row[COL_RELEASE_DATE])
             db.insert_creator(album_id=row[COL_ALBUM_ID], create_date=create_date, artist_id=row[COL_ARTIST_ID])
 
-        # Insert artist genres
-        for genre_id, genre_name in genres:
+        # Insert artist genres if artist genres not empty
+        if row[COL_ARTIST_GENRES] != "":
+            for genre_id, genre_name in genres:
 
-            artist_genres = str_to_list(row[COL_ARTIST_GENRES])
+                artist_genres = str_to_list(row[COL_ARTIST_GENRES])
 
-            if genre_name in artist_genres:
-                db.insert_artist_genre(artist_id=row[COL_ARTIST_ID], genre_id=genre_id)
+                if genre_name in artist_genres:
+                    db.insert_artist_genre(artist_id=row[COL_ARTIST_ID], genre_id=genre_id)
         
         artist_ids.append(row[COL_ARTIST_ID])
 
