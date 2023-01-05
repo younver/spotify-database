@@ -8,6 +8,21 @@ class Database:
         self.connection = mysql.connector.connect(host=args.host, database=args.database, user=args.user, password=args.password)
         self.cursor = self.connection.cursor()
 
+    def get_genres(self) -> list:
+        """ Returns genres in the form of (genre_id, genre_name) tuples """
+        query = "SELECT * FROM artist_genre_metrics"
+        self.cursor.execute(query)
+        genres = [(genre[0], genre[1]) for genre in self.cursor.fetchall()]
+        
+        return genres
+
+    def get_artist_ids(self) -> list:
+        query = "SELECT artist_id FROM artist"
+        self.cursor.execute(query)
+        artist_ids = [artist_id[0] for artist_id in self.cursor.fetchall()]
+        
+        return artist_ids
+
     def get_album_ids(self) -> list:
         query = "SELECT album_id FROM album"
         self.cursor.execute(query)
@@ -64,19 +79,38 @@ class Database:
         self.cursor.execute(query, (week, album_popularity, album_id))
         self.connection.commit()
 
-    def insert_creator():
-        pass
-    def insert_appears_on():
-        pass
-    def insert_artist():
-        pass
-    def insert_artist_weekly():
-        pass
-    def insert_artist_genre():
-        pass
+    def insert_creator(self, album_id : str, create_date : str, artist_id : str):
+        query = "INSERT IGNORE INTO creator VALUES (%s, %s, %s)"
+
+        self.cursor.execute(query, (album_id, create_date, artist_id))
+        self.connection.commit()
+
+    def insert_appears_on(self, album_id : str, artist_id : str):
+        query = "INSERT IGNORE INTO appears_on VALUES (%s, %s)"
+
+        self.cursor.execute(query, (album_id, artist_id))
+        self.connection.commit()
+
+    def insert_artist(self, artist_id : str, artist_name : str, artist_image_url : str):
+        query = "INSERT IGNORE INTO artist VALUES (%s, %s, %s)"
+
+        self.cursor.execute(query, (artist_id, artist_name, artist_image_url))
+        self.connection.commit()
+
+    def insert_artist_weekly(self, week : str, artist_popularity : int, artist_followers : int, artist_id : str):
+        query = "INSERT IGNORE INTO weekly_artist VALUES (%s, %s, %s, %s)"
+
+        self.cursor.execute(query, (week, artist_popularity, artist_followers, artist_id))
+        self.connection.commit()
+
+    def insert_artist_genre(self, artist_id : str, genre_id : int):
+        query = "INSERT IGNORE INTO artist_genres VALUES (%s, %s)"
+
+        self.cursor.execute(query, (artist_id, genre_id))
+        self.connection.commit()
     
     def insert_artist_genre_metric(self, genre_id : int, genre_name : str):
-        query = "INSERT IGNORE INTO artist_genre_metrics(genre_id, genre_name) VALUES (%s, %s)"
+        query = "INSERT IGNORE INTO artist_genre_metrics VALUES (%s, %s)"
 
         self.cursor.execute(query, (genre_id, genre_name))
         self.connection.commit()

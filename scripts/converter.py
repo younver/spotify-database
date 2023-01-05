@@ -1,4 +1,3 @@
-
 import requests
 from io import BytesIO
 from PIL import Image
@@ -20,6 +19,9 @@ def blob_to_image(blob : bytes) -> Image:
     image = Image.open(BytesIO(blob))
 
     return image
+
+def str_to_list(string : str, seperator : str = ',') -> list:
+    return [item.strip() for item in string.split(seperator)]
 
 def week_to_str(week : str):
 

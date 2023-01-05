@@ -1,4 +1,3 @@
-import io
 import csv
 from dataset import *
 from database import Database

@@ -29,3 +29,8 @@ process.wait()
 print("\n\n\n~~ inserting albums ~~")
 process = subprocess.Popen(["python3", "insert_albums.py", "--host", args.host, "--database", args.database, "--user", args.user, "--password", args.password, "--path", args.path])
 process.wait()
+
+# Insert artists
+print("\n\n\n~~ inserting artists ~~")
+process = subprocess.Popen(["python3", "insert_artists.py", "--host", args.host, "--database", args.database, "--user", args.user, "--password", args.password, "--path", args.path])
+process.wait()
