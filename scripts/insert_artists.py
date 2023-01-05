@@ -31,15 +31,15 @@ genres = db.get_genres()
 # Iterate through rows in order to do insertions
 for row in rows:
 
+    # Insert weekly artist whether that artist located in artist table or not
+    week = week_to_str(row[COL_WEEK])
+    db.insert_artist_weekly(week=week, artist_popularity=row[COL_ARTIST_POP], artist_followers=row[COL_ARTIST_FOLLOWERS], artist_id=row[COL_ARTIST_ID])
+
     if row[COL_ARTIST_ID] not in artist_ids:
 
         # Insert distinct artists into the artist table
         artist_image_url = row[COL_ARTIST_IMG][-40:] # Since only last 40 characters of the image url is unique
         db.insert_artist(artist_id=row[COL_ARTIST_ID], artist_name=row[COL_ARTIST_NAME], artist_image_url=artist_image_url)
-        
-        # Insert weekly artist
-        week = week_to_str(row[COL_WEEK])
-        db.insert_artist_weekly(week=week, artist_popularity=row[COL_ARTIST_POP], artist_followers=row[COL_ARTIST_FOLLOWERS], artist_id=row[COL_ARTIST_ID])
 
         # Insert creator table if the artist has pivot as 0 whcih means creator of the album
         if row[COL_PIVOT] == "0":

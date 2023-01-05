@@ -26,6 +26,10 @@ with open(args.path, 'r', encoding="utf-8") as csv_file:
 track_ids = db.get_track_ids()
 for row in rows:
 
+    # Insert weekly track whether that track located in track table or not
+    week = week_to_str(row[COL_WEEK])
+    db.insert_track_weekly(week=week, rank=row[COL_RANK], streams=row[COL_STREAMS], track_id=row[COL_TRACK_ID], track_popularity=row[COL_TRACK_POP])
+
     if row[COL_TRACK_ID] not in track_ids:
         collab = True if row[COL_COLLAB] == "TRUE" else False
         explicit = True if row[COL_EXPLICIT] == "TRUE" else False
@@ -36,10 +40,6 @@ for row in rows:
             col_feature = row[COL_DANCEABILITY + i] # Adding feature id to danceability column number will give desired feature column number
             db.insert_track_feature(track_id=row[COL_TRACK_ID], feature_id=i, value=col_feature)
         
-        # Insert weekly track
-        week = week_to_str(row[COL_WEEK])
-        db.insert_track_weekly(week=week, rank=row[COL_RANK], streams=row[COL_STREAMS], track_id=row[COL_TRACK_ID], track_popularity=row[COL_TRACK_POP])
-
         track_ids.append(row[COL_TRACK_ID])
 
         print("inserted", row[COL_TRACK_NAME])

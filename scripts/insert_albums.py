@@ -26,14 +26,14 @@ with open(args.path, 'r', encoding="utf-8") as csv_file:
 album_ids = db.get_album_ids()
 for row in rows:
 
+    # Insert weekly album whether that album located in album table or not
+    week = week_to_str(row[COL_WEEK])
+    db.insert_album_weekly(week=week, album_popularity=row[COL_ALBUM_POP], album_id=row[COL_ALBUM_ID])
+
     if row[COL_ALBUM_ID] not in album_ids:
         album_image = url_to_blob(row[COL_ALBUM_IMG])
         db.insert_album(album_id=row[COL_ALBUM_ID], album_name=row[COL_ALBUM_NAME], album_image=album_image, album_type=row[COL_ALBUM_TYPE], album_label=row[COL_ALBUM_LABEL], album_track_number=row[COL_ALBUM_TRACK_NUM])
         
-        # Insert weekly album
-        week = week_to_str(row[COL_WEEK])
-        db.insert_album_weekly(week=week, album_popularity=row[COL_ALBUM_POP], album_id=row[COL_ALBUM_ID])
-
         album_ids.append(row[COL_ALBUM_ID])
 
         print("inserted", row[COL_ALBUM_NAME])
