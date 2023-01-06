@@ -5,7 +5,7 @@ class Database:
     cursor = None
 
     def __init__(self, args):
-        self.connection = mysql.connector.connect(host=args.host, database=args.database, user=args.user, password=args.password)
+        self.connection = mysql.connector.connect(host=args.host,  database=args.database, user=args.user, password=args.password, port=args.port)
         self.cursor = self.connection.cursor()
 
     def get_genres(self) -> list:
