@@ -7,7 +7,7 @@
 4. go to scripts directory and execute `python3 insert.py` with desired parameters
 
 ### parameters for scripts
-`python3 insert.py --host localhost --database spotify --user root --password cmonmanthatstooez --path ../datasets/spotify_dataset_100.csv`
+`python3 insert_all.py --host localhost --database spotify --user root --password cmonmanthatstooez --path ../datasets/spotify_dataset_100.csv`
 * `--host` for the host of the mysql server (optional, `localhost` by default)
 * `--port` for the port of the mysql server (optional, `3306` by default)
 * `--database` for the database name from mysql server (optional, `spotify` by default)
