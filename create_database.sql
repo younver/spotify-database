@@ -20,9 +20,9 @@ USE `spotify` ;
 CREATE TABLE IF NOT EXISTS `spotify`.`track` (
   `track_id` CHAR(22) NOT NULL,
   `track_name` VARCHAR(666) NULL,
-  `track_number` TINYINT UNSIGNED NULL,
-  `collab` TINYINT UNSIGNED NULL,
-  `explicit` TINYINT UNSIGNED NULL,
+  `track_number` TINYINT UNSIGNED NOT NULL,
+  `collab` TINYINT UNSIGNED NOT NULL,
+  `explicit` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`track_id`))
 ENGINE = InnoDB;
 
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `spotify`.`album` (
   `album_id` CHAR(22) NOT NULL,
   `album_name` VARCHAR(666) NULL,
   `album_img` BLOB NULL,
-  `album_type` VARCHAR(666) NULL,
+  `album_type` VARCHAR(666) NOT NULL,
   `album_label` VARCHAR(666) NULL,
-  `album_track_number` TINYINT NULL,
+  `album_track_number` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`album_id`))
 ENGINE = InnoDB;
 
@@ -46,8 +46,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`artist` (
   `artist_id` CHAR(22) NOT NULL,
-  `artist_name` VARCHAR(666) NULL,
-  `artist_img` CHAR(40) NULL,
+  `artist_name` VARCHAR(666) NOT NULL,
+  `artist_img` CHAR(40) NOT NULL,
   PRIMARY KEY (`artist_id`))
 ENGINE = InnoDB;
 
@@ -57,7 +57,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`track_feature_metrics` (
   `feature_id` INT NOT NULL,
-  `feature_name` VARCHAR(666) NULL,
+  `feature_name` VARCHAR(666) NOT NULL,
   PRIMARY KEY (`feature_id`))
 ENGINE = InnoDB;
 
@@ -68,7 +68,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `spotify`.`track_features` (
   `track_id` CHAR(22) NOT NULL,
   `feature_id` INT NOT NULL,
-  `value` FLOAT NULL,
+  `value` FLOAT NOT NULL,
   PRIMARY KEY (`track_id`, `feature_id`))
 ENGINE = InnoDB;
 
@@ -88,7 +88,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`artist_genre_metrics` (
   `genre_id` INT NOT NULL,
-  `genre_name` VARCHAR(666) NULL,
+  `genre_name` VARCHAR(666) NOT NULL,
   PRIMARY KEY (`genre_id`))
 ENGINE = InnoDB;
 
@@ -107,11 +107,11 @@ ENGINE = InnoDB;
 -- Table `spotify`.`weekly_track`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`weekly_track` (
-  `week` INT NOT NULL,
-  `rank` TINYINT NULL,
-  `streams` INT NULL,
+  `week` CHAR(8) NOT NULL,
+  `rank` TINYINT UNSIGNED NOT NULL,
+  `streams` INT UNSIGNED NOT NULL,
   `track_id` CHAR(22) NOT NULL,
-  `track_popularity` TINYINT NULL,
+  `track_popularity` TINYINT UNSIGNED NOT NULL,
   PRIMARY KEY (`week`, `track_id`))
 ENGINE = InnoDB;
 
@@ -120,9 +120,9 @@ ENGINE = InnoDB;
 -- Table `spotify`.`exists_on`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`exists_on` (
-  `album_album_id` CHAR(22) NOT NULL,
-  `track_track_id` CHAR(22) NOT NULL,
-  PRIMARY KEY (`album_album_id`, `track_track_id`))
+  `album_id` CHAR(22) NOT NULL,
+  `track_id` CHAR(22) NOT NULL,
+  PRIMARY KEY (`album_id`, `track_id`))
 ENGINE = InnoDB;
 
 
@@ -141,8 +141,8 @@ ENGINE = InnoDB;
 -- Table `spotify`.`weekly_album`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`weekly_album` (
-  `week` INT NOT NULL,
-  `album_popularity` TINYINT NULL,
+  `week` CHAR(8) NOT NULL,
+  `album_popularity` TINYINT UNSIGNED NOT NULL,
   `album_id` CHAR(22) NOT NULL,
   PRIMARY KEY (`week`, `album_id`))
 ENGINE = InnoDB;
@@ -152,14 +152,14 @@ ENGINE = InnoDB;
 -- Table `spotify`.`weekly_artist`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `spotify`.`weekly_artist` (
-  `week` INT UNSIGNED NOT NULL,
-  `artist_popularity` TINYINT NULL,
-  `artist_followers` INT NULL,
+  `week` CHAR(8) NOT NULL,
+  `artist_popularity` TINYINT UNSIGNED NOT NULL,
+  `artist_followers` INT NOT NULL,
   `artist_id` CHAR(22) NOT NULL,
   PRIMARY KEY (`week`, `artist_id`))
 ENGINE = InnoDB;
 
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-

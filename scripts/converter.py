@@ -21,13 +21,17 @@ def blob_to_image(blob : bytes) -> Image:
     return image
 
 def str_to_list(string : str, seperator : str = ',') -> list:
-    return [item.strip() for item in string.split(seperator)]
+    return [item.strip() for item in string.split(seperator) if item.strip() != ""]
 
-def week_to_str(week : str):
+def date_to_str(date : str):
+
+    # Handle missing data
+    if len(date) < 8:
+        return None
 
     result = ""
     temp = ""
-    for char in week:
+    for char in date:
         if char.isdigit():
             temp += char
             continue

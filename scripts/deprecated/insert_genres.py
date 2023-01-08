@@ -20,7 +20,7 @@ db = Database(args)
 rows = None
 with open(args.path, 'r', encoding="utf-8") as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=';')
-    rows = [row for row in csv_reader]
+    rows = [row for row in csv_reader][1:]
 
 # Find distinct genres
 genres = []
